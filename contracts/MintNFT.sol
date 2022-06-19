@@ -3,8 +3,8 @@
 pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract MintNFT is ERC721Enumerable, Ownable {
     string public metadataURI;
@@ -14,9 +14,17 @@ contract MintNFT is ERC721Enumerable, Ownable {
     }
     
     function mintNFT() public {
+        require(totalSupply() < 100, "You can no longer mint NFT.");
+
         uint tokenId = totalSupply() + 1;
 
         _mint(msg.sender, tokenId);
+    }
+
+    function batchMintNFT(uint _amount) public {
+        for(uint i = 0; i < _amount; i++) {
+            mintNFT();
+        }
     }
 
     function tokenURI(uint _tokenId) override public view returns (string memory) {
