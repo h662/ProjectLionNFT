@@ -3,6 +3,7 @@
 pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract MintNFT is ERC721Enumerable, Ownable {
@@ -19,6 +20,6 @@ contract MintNFT is ERC721Enumerable, Ownable {
     }
 
     function tokenURI(uint _tokenId) override public view returns (string memory) {
-        return string(abi.encodePacked(metadataURI, '/', _tokenId, '.json'));
+        return string(abi.encodePacked(metadataURI, '/', Strings.toString(_tokenId), '.json'));
     }
 }
