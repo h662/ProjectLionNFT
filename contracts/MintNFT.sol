@@ -11,6 +11,8 @@ contract MintNFT is ERC721Enumerable, Ownable {
     string public metadataURI;
 
     bool public isRevealed;
+
+    mapping (address => bool) public whitelists;
     
     constructor(string memory _name, string memory _symbol, string memory _notRevealedURI) ERC721(_name, _symbol) {
         notRevealedURI = _notRevealedURI;
@@ -18,10 +20,14 @@ contract MintNFT is ERC721Enumerable, Ownable {
     
     function mintNFT() public payable {
         require(totalSupply() < 100, "You can no longer mint NFT.");
+        require(whitelists[msg.sender], "Caller is not whitelist.");
+        require(msg.value >= 2 * 10 ** 18, "Not enough klay.");
 
         uint tokenId = totalSupply() + 1;
 
         _mint(msg.sender, tokenId);
+
+        payable(owner()).transfer(msg.)
     }
 
     function batchMintNFT(uint _amount) public {
@@ -44,5 +50,9 @@ contract MintNFT is ERC721Enumerable, Ownable {
 
     function reveal() public onlyOwner {
         isRevealed = true;
+    }
+
+    function setWhitelist(address _whitelist) public onlyOwner {
+        whitelists[_whitelist] = true;
     }
 }
