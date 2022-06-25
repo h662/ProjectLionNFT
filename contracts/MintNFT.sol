@@ -27,7 +27,7 @@ contract MintNFT is ERC721Enumerable, Ownable {
 
         _mint(msg.sender, tokenId);
 
-        payable(owner()).transfer(msg.)
+        payable(owner()).transfer(msg.value);
     }
 
     function batchMintNFT(uint _amount) public {
